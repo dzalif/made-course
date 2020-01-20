@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/movieFragment">
+
+    <fragment
+        android:id="@+id/movieFragment"
+        android:name="com.kucingselfie.madecourse.ui.movie.MovieFragment"
+        android:label="Movie"
+        tools:layout="@layout/movie_fragment">
+        <action
+            android:id="@+id/action_movieFragment_to_detailMovieFragment"
+            app:destination="@id/detailMovieFragment"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_fade_exit" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailMovieFragment"
+        android:name="com.kucingselfie.madecourse.ui.movie.detail.DetailMovieFragment"
+        android:label="Detail Movie"
+        tools:layout="@layout/detail_movie_fragment">
+        <argument
+            android:name="model"
+            app:argType="com.kucingselfie.madecourse.model.DetailModel"/>
+    </fragment>
+
+</navigation>
