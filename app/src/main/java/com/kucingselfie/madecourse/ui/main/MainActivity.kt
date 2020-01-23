@@ -31,8 +31,15 @@ class MainActivity : AppCompatActivity() {
         NavController.OnDestinationChangedListener { _, destination, _ ->
             invalidateOptionsMenu()
             when(destination.id) {
-                R.id.movieFragment -> {
+                R.id.homeFragment -> {
+                    supportActionBar?.title = getString(R.string.home)
                     hideToolbarBack()
+                }
+                R.id.movieFragment -> {
+                    supportActionBar?.title = getString(R.string.movie)
+                }
+                R.id.TVShowFragment -> {
+                    supportActionBar?.title = getString(R.string.tv_show)
                 }
                 else -> showToolbarBack()
             }

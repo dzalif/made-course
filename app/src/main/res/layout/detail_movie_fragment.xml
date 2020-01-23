@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp"
-        tools:context="com.kucingselfie.madecourse.ui.movie.detail.DetailMovieFragment">
+        tools:context="com.kucingselfie.madecourse.ui.detail.DetailMovieFragment">
 
         <ImageView
             android:id="@+id/image"

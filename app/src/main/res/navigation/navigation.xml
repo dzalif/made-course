@@ -3,29 +3,39 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/movieFragment">
+    app:startDestination="@id/homeFragment">
 
     <fragment
         android:id="@+id/movieFragment"
         android:name="com.kucingselfie.madecourse.ui.movie.MovieFragment"
         android:label="Movie"
-        tools:layout="@layout/movie_fragment">
+        tools:layout="@layout/movie_fragment"/>
+    <fragment
+        android:id="@+id/detailMovieFragment"
+        android:name="com.kucingselfie.madecourse.ui.detail.DetailMovieFragment"
+        android:label="Detail"
+        tools:layout="@layout/detail_movie_fragment">
+        <argument
+            android:name="model"
+            app:argType="com.kucingselfie.madecourse.model.DetailModel"/>
+    </fragment>
+    <fragment
+        android:id="@+id/TVShowFragment"
+        tools:layout="@layout/tvshow_fragment"
+        android:name="com.kucingselfie.madecourse.ui.tvshow.TVShowFragment"
+        android:label="TVShowFragment" />
+    <fragment
+        android:id="@+id/homeFragment"
+        tools:layout="@layout/home_fragment"
+        android:name="com.kucingselfie.madecourse.ui.home.HomeFragment"
+        android:label="Home" >
         <action
-            android:id="@+id/action_movieFragment_to_detailMovieFragment"
+            android:id="@+id/action_homeFragment_to_detailMovieFragment"
             app:destination="@id/detailMovieFragment"
             app:enterAnim="@anim/fragment_fade_enter"
             app:exitAnim="@anim/fragment_fade_exit"
             app:popEnterAnim="@anim/fragment_fade_enter"
             app:popExitAnim="@anim/fragment_fade_exit" />
-    </fragment>
-    <fragment
-        android:id="@+id/detailMovieFragment"
-        android:name="com.kucingselfie.madecourse.ui.movie.detail.DetailMovieFragment"
-        android:label="Detail Movie"
-        tools:layout="@layout/detail_movie_fragment">
-        <argument
-            android:name="model"
-            app:argType="com.kucingselfie.madecourse.model.DetailModel"/>
     </fragment>
 
 </navigation>

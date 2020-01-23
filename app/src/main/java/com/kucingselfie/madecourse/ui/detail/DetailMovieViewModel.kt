@@ -1,4 +1,4 @@
-package com.kucingselfie.madecourse.ui.movie.detail
+package com.kucingselfie.madecourse.ui.detail
 
 import androidx.lifecycle.ViewModel
 

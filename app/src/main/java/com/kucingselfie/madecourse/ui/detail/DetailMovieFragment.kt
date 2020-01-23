@@ -1,4 +1,4 @@
-package com.kucingselfie.madecourse.ui.movie.detail
+package com.kucingselfie.madecourse.ui.detail
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -22,7 +22,9 @@ class DetailMovieFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel = ViewModelProviders.of(this).get(DetailMovieViewModel::class.java)
-        val model = DetailMovieFragmentArgs.fromBundle(arguments!!).model
-        binding.model = model
+        arguments?.let {
+            val model = DetailMovieFragmentArgs.fromBundle(it).model
+            binding.model = model
+        }
     }
 }
