@@ -28,7 +28,7 @@ class TVShowFragment : Fragment() {
         viewModel = ViewModelProviders.of(this).get(TvshowViewModel::class.java)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewmodel = viewModel
-        adapter = TVShowAdapter {
+        adapter = com.kucingselfie.madecourse.ui.tvshow.TVShowAdapter {
             val model = DetailModel(
                 it.id,
                 it.title,
