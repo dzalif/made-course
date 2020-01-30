@@ -4,6 +4,7 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.kucingselfie.madecourse.common.BASE_URL_IMAGE
 import com.kucingselfie.madecourse.model.Movie
 import com.kucingselfie.madecourse.model.TVShow
 import com.kucingselfie.madecourse.ui.movie.MovieAdapter
@@ -22,8 +23,10 @@ fun listTVShow(recyclerView: RecyclerView, data: List<TVShow>?) {
 }
 
 @BindingAdapter("bindImage")
-fun bindImage(imgView: ImageView, imgUrl: Int) {
-    Glide.with(imgView.context)
-        .load(imgUrl)
-        .into(imgView)
+fun bindImage(imgView: ImageView, imgUrl: String?) {
+    imgUrl?.let {
+        Glide.with(imgView.context)
+            .load(BASE_URL_IMAGE + it)
+            .into(imgView)
+    }
 }

@@ -1,8 +1,12 @@
 package com.kucingselfie.madecourse.model
 
+import com.google.gson.annotations.SerializedName
+
 data class TVShow(
     val id: Int,
+    @SerializedName("name")
     val title: String,
-    val description: String,
-    val image: Int
+    @SerializedName("poster_path")
+    val posterPath: String?,
+    val overview: String
 )

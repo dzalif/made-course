@@ -5,8 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.kucingselfie.madecourse.common.ResultState
 import com.kucingselfie.madecourse.databinding.DetailMovieFragmentBinding
+import com.kucingselfie.madecourse.util.gone
+import com.kucingselfie.madecourse.util.visible
 
 class DetailMovieFragment : Fragment() {
     private lateinit var viewModel: DetailMovieViewModel
@@ -23,8 +27,31 @@ class DetailMovieFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel = ViewModelProviders.of(this).get(DetailMovieViewModel::class.java)
         arguments?.let {
-            val model = DetailMovieFragmentArgs.fromBundle(it).model
-            binding.model = model
+            val id = DetailMovieFragmentArgs.fromBundle(it).id
+            val isMovie = DetailMovieFragmentArgs.fromBundle(it).isMovie
+
+            if (isMovie) viewModel.getDetailMovie(id)
+            else viewModel.getDetailTvShow(id)
         }
+        observeData()
+    }
+
+    private fun observeData() {
+        viewModel.detailMovie.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                when(it) {
+                    is ResultState.Loading -> {
+                        binding.progressBar.visible()
+                    }
+                    is ResultState.HasData -> {
+                        binding.progressBar.gone()
+                        binding.model = it.data
+                    }
+                    is ResultState.Error -> {
+                        binding.progressBar.gone()
+                    }
+                }
+            }
+        })
     }
 }

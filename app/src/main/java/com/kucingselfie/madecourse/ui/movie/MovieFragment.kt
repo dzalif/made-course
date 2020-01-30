@@ -1,16 +1,19 @@
 package com.kucingselfie.madecourse.ui.movie
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-
+import com.kucingselfie.madecourse.common.ResultState
 import com.kucingselfie.madecourse.databinding.MovieFragmentBinding
-import com.kucingselfie.madecourse.model.DetailModel
 import com.kucingselfie.madecourse.ui.home.HomeFragmentDirections
+import com.kucingselfie.madecourse.util.gone
+import com.kucingselfie.madecourse.util.visible
+import kotlinx.android.synthetic.main.movie_fragment.*
 
 class MovieFragment : Fragment() {
     private lateinit var viewModel: MovieViewModel
@@ -29,14 +32,34 @@ class MovieFragment : Fragment() {
         viewModel = ViewModelProviders.of(this).get(MovieViewModel::class.java)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewmodel = viewModel
+
+        initRecyclerView()
+        viewModel.getMovies()
+
+        viewModel.movies.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                when(it) {
+                    is ResultState.Loading -> {
+                        progressBar.visible()
+                    }
+                    is ResultState.NoData -> {
+                        progressBar.gone()
+                    }
+                    is ResultState.HasData -> {
+                        progressBar.gone()
+                        adapter.submitList(it.data)
+                    }
+                    is ResultState.Error -> {
+                        progressBar.gone()
+                    }
+                }
+            }
+        })
+    }
+
+    private fun initRecyclerView() {
         adapter = MovieAdapter {
-            val model = DetailModel(
-                it.id,
-                it.title,
-                it.description,
-                it.image
-            )
-            val action = HomeFragmentDirections.actionHomeFragmentToDetailMovieFragment(model)
+            val action = HomeFragmentDirections.actionHomeFragmentToDetailMovieFragment(it.id, true)
             findNavController().navigate(action)
         }
         binding.rvMovie.adapter = adapter

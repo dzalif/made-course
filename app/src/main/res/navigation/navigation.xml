@@ -16,8 +16,11 @@
         android:label="Detail"
         tools:layout="@layout/detail_movie_fragment">
         <argument
-            android:name="model"
-            app:argType="com.kucingselfie.madecourse.model.DetailModel"/>
+            android:name="id"
+            app:argType="integer"/>
+        <argument
+            android:name="isMovie"
+            app:argType="boolean" />
     </fragment>
     <fragment
         android:id="@+id/TVShowFragment"
@@ -28,7 +31,7 @@
         android:id="@+id/homeFragment"
         tools:layout="@layout/home_fragment"
         android:name="com.kucingselfie.madecourse.ui.home.HomeFragment"
-        android:label="Home" >
+        android:label="Home">
         <action
             android:id="@+id/action_homeFragment_to_detailMovieFragment"
             app:destination="@id/detailMovieFragment"

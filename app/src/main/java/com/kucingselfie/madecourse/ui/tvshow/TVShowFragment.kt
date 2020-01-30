@@ -5,11 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import com.kucingselfie.madecourse.common.ResultState
 import com.kucingselfie.madecourse.databinding.TvshowFragmentBinding
-import com.kucingselfie.madecourse.model.DetailModel
 import com.kucingselfie.madecourse.ui.home.HomeFragmentDirections
+import com.kucingselfie.madecourse.util.gone
+import com.kucingselfie.madecourse.util.visible
+import kotlinx.android.synthetic.main.movie_fragment.*
 
 class TVShowFragment : Fragment() {
     private lateinit var viewModel: TvshowViewModel
@@ -28,17 +32,39 @@ class TVShowFragment : Fragment() {
         viewModel = ViewModelProviders.of(this).get(TvshowViewModel::class.java)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewmodel = viewModel
-        adapter = com.kucingselfie.madecourse.ui.tvshow.TVShowAdapter {
-            val model = DetailModel(
-                it.id,
-                it.title,
-                it.description,
-                it.image
-            )
-            val action = HomeFragmentDirections.actionHomeFragmentToDetailMovieFragment(model)
-            findNavController().navigate(action)
-        }
-        binding.rvMovie.adapter = adapter
+
+        initRecyclerView()
+        viewModel.getTVShow()
+        observeData()
     }
 
+    private fun observeData() {
+        viewModel.tvShows.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                when(it) {
+                    is ResultState.Loading -> {
+                        progressBar.visible()
+                    }
+                    is ResultState.NoData -> {
+                        progressBar.gone()
+                    }
+                    is ResultState.HasData -> {
+                        progressBar.gone()
+                        adapter.submitList(it.data)
+                    }
+                    is ResultState.Error -> {
+                        progressBar.gone()
+                    }
+                }
+            }
+        })
+    }
+
+    private fun initRecyclerView() {
+        adapter = TVShowAdapter {
+            val action = HomeFragmentDirections.actionHomeFragmentToDetailMovieFragment(it.id, false)
+            findNavController().navigate(action)
+        }
+        binding.rvTVshow.adapter = adapter
+    }
 }
