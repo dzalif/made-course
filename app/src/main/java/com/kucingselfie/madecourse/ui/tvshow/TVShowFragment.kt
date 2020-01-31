@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.kucingselfie.madecourse.common.ResultState
 import com.kucingselfie.madecourse.databinding.TvshowFragmentBinding
@@ -29,7 +29,7 @@ class TVShowFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel = ViewModelProviders.of(this).get(TvshowViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(TvshowViewModel::class.java)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewmodel = viewModel
 

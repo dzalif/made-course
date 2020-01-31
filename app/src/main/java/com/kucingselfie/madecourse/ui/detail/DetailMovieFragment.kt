@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.kucingselfie.madecourse.common.ResultState
 import com.kucingselfie.madecourse.databinding.DetailMovieFragmentBinding
 import com.kucingselfie.madecourse.util.gone
@@ -25,7 +25,7 @@ class DetailMovieFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel = ViewModelProviders.of(this).get(DetailMovieViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(DetailMovieViewModel::class.java)
         binding.lifecycleOwner = this
         arguments?.let {
             val id = DetailMovieFragmentArgs.fromBundle(it).id
@@ -34,12 +34,13 @@ class DetailMovieFragment : Fragment() {
             if (savedInstanceState == null) {
                 if (isMovie) viewModel.getDetailMovie(id)
                 else viewModel.getDetailTvShow(id)
-                observeData()
             } else {
                 binding.progressBar.gone()
                 val movie = viewModel.getMovieState()
                 binding.model = movie
             }
+
+            observeData()
         }
     }
 

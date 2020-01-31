@@ -9,7 +9,9 @@ import com.kucingselfie.madecourse.api.ApiClient
 import com.kucingselfie.madecourse.common.API_KEY
 import com.kucingselfie.madecourse.common.ResultState
 import com.kucingselfie.madecourse.model.TVShow
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.IOException
 
 class TvshowViewModel : ViewModel() {
@@ -18,18 +20,20 @@ class TvshowViewModel : ViewModel() {
 
     fun getTVShow() {
         viewModelScope.launch {
-            try {
-                val result = ApiClient.create().getTvShows(API_KEY)
-                val tvShows = result.results
-                if (tvShows.isEmpty()) {
-                    setTvShowResult(ResultState.NoData())
-                    return@launch
-                }
-                setTvShowResult(ResultState.HasData(tvShows))
-            } catch (t: Throwable) {
-                when(t) {
-                    is IOException -> setTvShowResult(ResultState.NoInternetConnection())
-                    else -> setTvShowResult(ResultState.Error(R.string.unknown_error))
+            withContext(IO) {
+                try {
+                    val result = ApiClient.create().getTvShows(API_KEY)
+                    val tvShows = result.results
+                    if (tvShows.isEmpty()) {
+                        setTvShowResult(ResultState.NoData())
+                        return@withContext
+                    }
+                    setTvShowResult(ResultState.HasData(tvShows))
+                } catch (t: Throwable) {
+                    when(t) {
+                        is IOException -> setTvShowResult(ResultState.NoInternetConnection())
+                        else -> setTvShowResult(ResultState.Error(R.string.unknown_error))
+                    }
                 }
             }
         }

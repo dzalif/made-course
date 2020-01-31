@@ -9,7 +9,9 @@ import com.kucingselfie.madecourse.api.ApiClient
 import com.kucingselfie.madecourse.common.API_KEY
 import com.kucingselfie.madecourse.common.ResultState
 import com.kucingselfie.madecourse.model.Movie
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.IOException
 
 class MovieViewModel : ViewModel() {
@@ -19,18 +21,20 @@ class MovieViewModel : ViewModel() {
     fun getMovies() {
         setMovieResult(ResultState.Loading())
         viewModelScope.launch {
-            try {
-                val result = ApiClient.create().getMovies(API_KEY)
-                val movies = result.results
-                if (movies.isEmpty()) {
-                    setMovieResult(ResultState.NoData())
-                    return@launch
-                }
-                setMovieResult(ResultState.HasData(movies))
-            } catch (t: Throwable) {
-                when(t) {
-                    is IOException -> setMovieResult(ResultState.NoInternetConnection())
-                    else -> setMovieResult(ResultState.Error(R.string.unknown_error))
+            withContext(IO) {
+                try {
+                    val result = ApiClient.create().getMovies(API_KEY)
+                    val movies = result.results
+                    if (movies.isEmpty()) {
+                        setMovieResult(ResultState.NoData())
+                        return@withContext
+                    }
+                    setMovieResult(ResultState.HasData(movies))
+                } catch (t: Throwable) {
+                    when(t) {
+                        is IOException -> setMovieResult(ResultState.NoInternetConnection())
+                        else -> setMovieResult(ResultState.Error(R.string.unknown_error))
+                    }
                 }
             }
         }

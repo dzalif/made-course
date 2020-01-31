@@ -6,7 +6,9 @@ import com.kucingselfie.madecourse.api.ApiClient
 import com.kucingselfie.madecourse.common.API_KEY
 import com.kucingselfie.madecourse.common.ResultState
 import com.kucingselfie.madecourse.model.DetailModel
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.IOException
 
 class DetailMovieViewModel(state: SavedStateHandle) : ViewModel() {
@@ -23,19 +25,19 @@ class DetailMovieViewModel(state: SavedStateHandle) : ViewModel() {
     fun getDetailMovie(id: Int) {
         setDetailResult(ResultState.Loading())
         viewModelScope.launch {
-            try {
-                val result = ApiClient.create().getMovieDetail(id, API_KEY)
-                saveMovieState(result)
-                setDetailResult(ResultState.HasData(result))
-            } catch (t: Throwable) {
-                when (t) {
-                    is IOException -> setDetailResult(ResultState.NoInternetConnection())
-                    else -> setDetailResult(ResultState.Error(R.string.unknown_error))
+            withContext(IO) {
+                try {
+                    val result = ApiClient.create().getMovieDetail(id, API_KEY)
+                    saveMovieState(result)
+                    setDetailResult(ResultState.HasData(result))
+                } catch (t: Throwable) {
+                    when (t) {
+                        is IOException -> setDetailResult(ResultState.NoInternetConnection())
+                        else -> setDetailResult(ResultState.Error(R.string.unknown_error))
+                    }
                 }
             }
-
         }
-
     }
 
     private fun saveMovieState(result: DetailModel) {
@@ -53,13 +55,15 @@ class DetailMovieViewModel(state: SavedStateHandle) : ViewModel() {
     fun getDetailTvShow(id: Int) {
         setDetailResult(ResultState.Loading())
         viewModelScope.launch {
-            try {
-                val result = ApiClient.create().getTvDetail(id, API_KEY)
-                setDetailResult(ResultState.HasData(result))
-            } catch (t: Throwable) {
-                when (t) {
-                    is IOException -> setDetailResult(ResultState.NoInternetConnection())
-                    else -> setDetailResult(ResultState.Error(R.string.unknown_error))
+            withContext(IO) {
+                try {
+                    val result = ApiClient.create().getTvDetail(id, API_KEY)
+                    setDetailResult(ResultState.HasData(result))
+                } catch (t: Throwable) {
+                    when (t) {
+                        is IOException -> setDetailResult(ResultState.NoInternetConnection())
+                        else -> setDetailResult(ResultState.Error(R.string.unknown_error))
+                    }
                 }
             }
         }
