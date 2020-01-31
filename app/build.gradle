@@ -99,4 +99,5 @@ dependencies {
 
     // Dependencies for Multidex
     implementation "com.android.support:multidex:$multidex_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.2.1"
 }

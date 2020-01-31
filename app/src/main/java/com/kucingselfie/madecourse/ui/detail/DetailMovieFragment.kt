@@ -26,14 +26,21 @@ class DetailMovieFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel = ViewModelProviders.of(this).get(DetailMovieViewModel::class.java)
+        binding.lifecycleOwner = this
         arguments?.let {
             val id = DetailMovieFragmentArgs.fromBundle(it).id
             val isMovie = DetailMovieFragmentArgs.fromBundle(it).isMovie
 
-            if (isMovie) viewModel.getDetailMovie(id)
-            else viewModel.getDetailTvShow(id)
+            if (savedInstanceState == null) {
+                if (isMovie) viewModel.getDetailMovie(id)
+                else viewModel.getDetailTvShow(id)
+                observeData()
+            } else {
+                binding.progressBar.gone()
+                val movie = viewModel.getMovieState()
+                binding.model = movie
+            }
         }
-        observeData()
     }
 
     private fun observeData() {
