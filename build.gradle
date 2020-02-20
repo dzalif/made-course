@@ -33,8 +33,8 @@ task clean(type: Delete) {
 ext {
     // App dependencies
     appCompatVersion = '1.1.0'
-    ktxCore = '1.1.0'
-    legacyVersion = '1.0.0'
+    ktxCore = '1.2.0'
+    legacyVersion = '1.2.0'
     junitVersion = '4.12'
     testVersion = '1.1.0'
     espressoVersion = '3.1.0'
