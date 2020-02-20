@@ -32,10 +32,19 @@ class MovieFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(MovieViewModel::class.java)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewmodel = viewModel
-
         initRecyclerView()
-        viewModel.getMovies()
 
+        if (savedInstanceState == null) {
+            viewModel.getMovies()
+        } else {
+            binding.progressBar.gone()
+            val result = viewModel.getMovieState()
+            adapter.submitList(result)
+        }
+        observeData()
+    }
+
+    private fun observeData() {
         viewModel.movies.observe(viewLifecycleOwner, Observer {
             it?.let {
                 when(it) {

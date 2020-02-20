@@ -34,7 +34,14 @@ class TVShowFragment : Fragment() {
         binding.viewmodel = viewModel
 
         initRecyclerView()
-        viewModel.getTVShow()
+
+        if (savedInstanceState == null) {
+            viewModel.getTVShow()
+        } else {
+            binding.progressBar.gone()
+            val result = viewModel.getTVState()
+            adapter.submitList(result)
+        }
         observeData()
     }
 

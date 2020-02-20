@@ -1,9 +1,6 @@
 package com.kucingselfie.madecourse.ui.movie
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.kucingselfie.madecourse.R
 import com.kucingselfie.madecourse.api.ApiClient
 import com.kucingselfie.madecourse.common.API_KEY
@@ -14,7 +11,14 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.IOException
 
-class MovieViewModel : ViewModel() {
+class MovieViewModel(state: SavedStateHandle) : ViewModel() {
+
+    companion object {
+        const val MOVIE = "movie"
+    }
+
+    private val savedStateHandle = state
+
     private val _movies = MutableLiveData<ResultState<List<Movie>>>()
     val movies: LiveData<ResultState<List<Movie>>> get() = _movies
 
@@ -29,6 +33,7 @@ class MovieViewModel : ViewModel() {
                         setMovieResult(ResultState.NoData())
                         return@withContext
                     }
+                    saveMovieState(movies)
                     setMovieResult(ResultState.HasData(movies))
                 } catch (t: Throwable) {
                     when(t) {
@@ -42,5 +47,13 @@ class MovieViewModel : ViewModel() {
 
     private fun setMovieResult(result: ResultState<List<Movie>>) {
         _movies.postValue(result)
+    }
+
+    private fun saveMovieState(result: List<Movie>) {
+        savedStateHandle.set(MOVIE, result)
+    }
+
+    fun getMovieState() : List<Movie>? {
+        return savedStateHandle.get(MOVIE)
     }
 }

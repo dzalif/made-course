@@ -1,9 +1,6 @@
 package com.kucingselfie.madecourse.ui.tvshow
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.kucingselfie.madecourse.R
 import com.kucingselfie.madecourse.api.ApiClient
 import com.kucingselfie.madecourse.common.API_KEY
@@ -14,7 +11,14 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.IOException
 
-class TvshowViewModel : ViewModel() {
+class TvshowViewModel(state: SavedStateHandle) : ViewModel() {
+
+    companion object {
+        const val TVSHOW = "tvShow"
+    }
+
+    private val savedStateHandle = state
+
     private val _tvShows = MutableLiveData<ResultState<List<TVShow>>>()
     val tvShows: LiveData<ResultState<List<TVShow>>> get() = _tvShows
 
@@ -28,6 +32,7 @@ class TvshowViewModel : ViewModel() {
                         setTvShowResult(ResultState.NoData())
                         return@withContext
                     }
+                    saveTVState(tvShows)
                     setTvShowResult(ResultState.HasData(tvShows))
                 } catch (t: Throwable) {
                     when(t) {
@@ -41,5 +46,13 @@ class TvshowViewModel : ViewModel() {
 
     private fun setTvShowResult(result: ResultState<List<TVShow>>) {
         _tvShows.postValue(result)
+    }
+
+    private fun saveTVState(result: List<TVShow>) {
+        savedStateHandle.set(TVSHOW, result)
+    }
+
+    fun getTVState() : List<TVShow>? {
+        return savedStateHandle.get(TVSHOW)
     }
 }
