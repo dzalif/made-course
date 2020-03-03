@@ -69,7 +69,7 @@ class TVShowFragment : Fragment() {
 
     private fun initRecyclerView() {
         adapter = TVShowAdapter {
-            val action = HomeFragmentDirections.actionHomeFragmentToDetailMovieFragment(it.id, false)
+            val action = TVShowFragmentDirections.actionTVShowFragmentToDetailMovieFragment(it.id, false)
             findNavController().navigate(action)
         }
         binding.rvTVshow.adapter = adapter

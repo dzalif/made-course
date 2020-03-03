@@ -6,11 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.kucingselfie.madecourse.common.ResultState
 import com.kucingselfie.madecourse.databinding.MovieFragmentBinding
-import com.kucingselfie.madecourse.ui.home.HomeFragmentDirections
 import com.kucingselfie.madecourse.util.gone
 import com.kucingselfie.madecourse.util.visible
 import kotlinx.android.synthetic.main.movie_fragment.*
@@ -29,7 +28,7 @@ class MovieFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel = ViewModelProvider(this).get(MovieViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(MovieViewModel::class.java)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewmodel = viewModel
         initRecyclerView()
@@ -68,7 +67,7 @@ class MovieFragment : Fragment() {
 
     private fun initRecyclerView() {
         adapter = MovieAdapter {
-            val action = HomeFragmentDirections.actionHomeFragmentToDetailMovieFragment(it.id, true)
+            val action = MovieFragmentDirections.actionMovieFragmentToDetailMovieFragment(it.id, true)
             findNavController().navigate(action)
         }
         binding.rvMovie.adapter = adapter

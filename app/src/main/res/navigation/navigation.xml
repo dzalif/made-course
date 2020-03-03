@@ -3,13 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/movieFragment">
 
     <fragment
         android:id="@+id/movieFragment"
         android:name="com.kucingselfie.madecourse.ui.movie.MovieFragment"
         android:label="Movie"
-        tools:layout="@layout/movie_fragment"/>
+        tools:layout="@layout/movie_fragment">
+        <action
+            android:id="@+id/action_movieFragment_to_detailMovieFragment"
+            app:destination="@id/detailMovieFragment" />
+    </fragment>
     <fragment
         android:id="@+id/detailMovieFragment"
         android:name="com.kucingselfie.madecourse.ui.detail.DetailMovieFragment"
@@ -26,7 +30,11 @@
         android:id="@+id/TVShowFragment"
         tools:layout="@layout/tvshow_fragment"
         android:name="com.kucingselfie.madecourse.ui.tvshow.TVShowFragment"
-        android:label="TVShowFragment" />
+        android:label="TVShowFragment" >
+        <action
+            android:id="@+id/action_TVShowFragment_to_detailMovieFragment"
+            app:destination="@id/detailMovieFragment" />
+    </fragment>
     <fragment
         android:id="@+id/homeFragment"
         tools:layout="@layout/home_fragment"
@@ -40,5 +48,9 @@
             app:popEnterAnim="@anim/fragment_fade_enter"
             app:popExitAnim="@anim/fragment_fade_exit" />
     </fragment>
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.kucingselfie.madecourse.ui.favorite.FavoriteFragment"
+        android:label="FavoriteFragment" />
 
 </navigation>

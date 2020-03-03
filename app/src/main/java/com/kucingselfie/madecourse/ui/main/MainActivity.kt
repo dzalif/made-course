@@ -6,6 +6,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.kucingselfie.madecourse.R
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -17,6 +18,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initNavController()
+        initBottomNav()
+    }
+
+    private fun initBottomNav() {
+        bottomNavigationView.setupWithNavController(navController)
+        navController.addOnDestinationChangedListener(navigationListener)
     }
 
     private fun initNavController() {
@@ -37,9 +44,15 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.movieFragment -> {
                     supportActionBar?.title = getString(R.string.movie)
+                    hideToolbarBack()
                 }
                 R.id.TVShowFragment -> {
                     supportActionBar?.title = getString(R.string.tv_show)
+                    hideToolbarBack()
+                }
+                R.id.favoriteFragment -> {
+                    supportActionBar?.title = getString(R.string.favorite)
+                    hideToolbarBack()
                 }
                 else -> showToolbarBack()
             }

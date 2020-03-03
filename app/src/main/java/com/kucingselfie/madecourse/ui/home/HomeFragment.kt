@@ -12,6 +12,7 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.kucingselfie.madecourse.R
 import com.kucingselfie.madecourse.databinding.HomeFragmentBinding
+import com.kucingselfie.madecourse.ui.favorite.FavoriteFragment
 import com.kucingselfie.madecourse.ui.movie.MovieFragment
 import com.kucingselfie.madecourse.ui.tvshow.TVShowFragment
 
@@ -45,7 +46,8 @@ class HomeFragment : Fragment() {
 
         private val pages: List<Fragment> = listOf(
             MovieFragment(),
-            TVShowFragment()
+            TVShowFragment(),
+            FavoriteFragment()
         )
 
         override fun getItem(position: Int): Fragment {
