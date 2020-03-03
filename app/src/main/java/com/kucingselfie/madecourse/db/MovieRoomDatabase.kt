@@ -5,12 +5,15 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.kucingselfie.madecourse.entity.MovieEntity
+import com.kucingselfie.madecourse.entity.TVShowEntity
 import kotlinx.coroutines.CoroutineScope
 
-@Database(entities = [MovieEntity::class], version = 1, exportSchema = false)
+@Database(entities = [MovieEntity::class, TVShowEntity::class], version = 4, exportSchema = false)
 abstract class MovieRoomDatabase : RoomDatabase() {
 
     abstract fun movieDao(): MovieDao
+
+    abstract fun tvShowDao(): TVShowDao
 
     companion object {
         // Singleton prevents multiple instances of database opening at the
@@ -28,25 +31,10 @@ abstract class MovieRoomDatabase : RoomDatabase() {
                     context.applicationContext,
                     MovieRoomDatabase::class.java,
                     "movieDb.db"
-                ).build()
+                ).fallbackToDestructiveMigration().build()
                 INSTANCE = instance
                 return instance
             }
         }
-
-//        class MovieDatabaseCallback(private val scope: CoroutineScope) : RoomDatabase.Callback() {
-//            override fun onOpen(db: SupportSQLiteDatabase) {
-//                super.onOpen(db)
-//                INSTANCE?.let { database ->
-//                    scope.launch(Dispatchers.IO) {
-//                        populateDatabase(database.movieDao())
-//                    }
-//                }
-//            }
-//
-//            private suspend fun populateDatabase(movieDao: MovieDao) {
-//                movieDao.deleteAllMovie()
-//            }
-//        }
     }
 }

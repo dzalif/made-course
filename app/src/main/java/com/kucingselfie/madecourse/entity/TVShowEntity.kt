@@ -3,10 +3,10 @@ package com.kucingselfie.madecourse.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.google.gson.annotations.SerializedName
 
-@Entity(tableName = "movie")
-data class MovieEntity(
+
+@Entity(tableName = "tvshow")
+data class TVShowEntity(
     @PrimaryKey
     @ColumnInfo(name = "id")
     val id: Int,

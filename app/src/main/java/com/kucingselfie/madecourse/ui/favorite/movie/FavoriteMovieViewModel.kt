@@ -16,7 +16,8 @@ class FavoriteMovieViewModel(application: Application) : AndroidViewModel(applic
 
     init {
         val movieDao = MovieRoomDatabase.getDatabase(application, viewModelScope).movieDao()
-        repository = MovieRepository(movieDao)
+        val tvShowDao = MovieRoomDatabase.getDatabase(application, viewModelScope).tvShowDao()
+        repository = MovieRepository(movieDao, tvShowDao)
         allMovies = repository.allMovies
     }
 }

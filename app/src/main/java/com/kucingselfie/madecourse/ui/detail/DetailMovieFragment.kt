@@ -18,6 +18,7 @@ class DetailMovieFragment : Fragment() {
     private lateinit var binding: DetailMovieFragmentBinding
     private var menuItem: Menu? = null
     private var isFavorite: Boolean = false
+    private var isMovie: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,10 +34,12 @@ class DetailMovieFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         arguments?.let {
             val id = DetailMovieFragmentArgs.fromBundle(it).id
-            val isMovie = DetailMovieFragmentArgs.fromBundle(it).isMovie
+            isMovie = DetailMovieFragmentArgs.fromBundle(it).isMovie
+
+            viewModel.setMovieId(id)
 
             viewModel.getMovieBy(id)
-            viewModel.setMovieId(id)
+            viewModel.getTVShowBy(id)
 
             if (savedInstanceState == null) {
                 if (isMovie) viewModel.getDetailMovie(id)
@@ -60,7 +63,11 @@ class DetailMovieFragment : Fragment() {
                     is ResultState.HasData -> {
                         binding.progressBar.gone()
                         binding.model = it.data
-                        viewModel.setMovieData(it.data)
+                        if (isMovie) {
+                            viewModel.setMovieData(it.data)
+                        } else {
+                            viewModel.setTVShowData(it.data)
+                        }
                     }
                     is ResultState.Error -> {
                         binding.progressBar.gone()
@@ -69,7 +76,21 @@ class DetailMovieFragment : Fragment() {
             }
         })
 
-        viewModel.movieResult.observe(viewLifecycleOwner, Observer {
+        viewModel.movieByIdResult.observe(viewLifecycleOwner, Observer {
+            val id = viewModel.getMovieId()
+            it?.let {
+                if (it.isEmpty()) {
+                    return@Observer
+                } else {
+                    if (it[0].id == id) {
+                        isFavorite = true
+                    }
+                }
+                setFavorite()
+            }
+        })
+
+        viewModel.tvByIdResult.observe(viewLifecycleOwner, Observer {
             val id = viewModel.getMovieId()
             it?.let {
                 if (it.isEmpty()) {
@@ -95,9 +116,13 @@ class DetailMovieFragment : Fragment() {
         when(item.itemId) {
             R.id.action_favorite -> {
                 if (isFavorite) {
-                    removeFromFavorite()
+                    if (isMovie) {
+                        removeFromFavoriteMovie()
+                    } else {
+                        removeFromFavoriteTVShow()
+                    }
                 } else {
-                    addedToFavorite()
+                    if (isMovie) addToFavoriteMovie() else addToFavoriteTVShow()
                 }
                 isFavorite = !isFavorite
                 setFavorite()
@@ -107,17 +132,31 @@ class DetailMovieFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun removeFromFavorite() {
-        val model = viewModel.getMovieData()
+    private fun addToFavoriteTVShow() {
+        val model = viewModel.getDetailTVShowData()
         model?.let {
-            viewModel.removeFromFavorite(it.id)
+            viewModel.insertTVShow(it)
         }
     }
 
-    private fun addedToFavorite() {
-        val model = viewModel.getMovieData()
+    private fun addToFavoriteMovie() {
+        val model = viewModel.getDetailMovieData()
         model?.let {
             viewModel.insertMovie(it)
+        }
+    }
+
+    private fun removeFromFavoriteTVShow() {
+        val model = viewModel.getDetailTVShowData()
+        model?.let {
+            viewModel.removeFromFavoriteTVShow(it.id)
+        }
+    }
+
+    private fun removeFromFavoriteMovie() {
+        val model = viewModel.getDetailMovieData()
+        model?.let {
+            viewModel.removeFromFavoriteMovie(it.id)
         }
     }
 

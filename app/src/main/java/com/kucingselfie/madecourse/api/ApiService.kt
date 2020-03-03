@@ -3,6 +3,7 @@ package com.kucingselfie.madecourse.api
 import com.kucingselfie.madecourse.api.response.MovieResponse
 import com.kucingselfie.madecourse.api.response.TVShowResponse
 import com.kucingselfie.madecourse.model.DetailModel
+import com.kucingselfie.madecourse.model.DetailTVShowModel
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

@@ -1,13 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.favorite.tvshow.FavoriteTVShowFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.favorite.movie.FavoriteMovieFragment">
 
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvFavoriteTvShow"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Hello" />
+        tools:listitem="@layout/item_movie"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="2">
+    </androidx.recyclerview.widget.RecyclerView>
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/textEmptyData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_data"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/rvFavoriteTvShow"
+        app:layout_constraintEnd_toEndOf="@+id/rvFavoriteTvShow"
+        app:layout_constraintStart_toStartOf="@+id/rvFavoriteTvShow"
+        app:layout_constraintTop_toTopOf="@+id/rvFavoriteTvShow" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
