@@ -51,6 +51,10 @@
     <fragment
         android:id="@+id/favoriteFragment"
         android:name="com.kucingselfie.madecourse.ui.favorite.FavoriteFragment"
-        android:label="FavoriteFragment" />
+        android:label="FavoriteFragment" >
+        <action
+            android:id="@+id/action_favoriteFragment_to_detailMovieFragment"
+            app:destination="@id/detailMovieFragment" />
+    </fragment>
 
 </navigation>

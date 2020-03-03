@@ -7,7 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.kucingselfie.madecourse.databinding.FavoriteTvshowFragmentBinding
+import com.kucingselfie.madecourse.ui.favorite.FavoriteFragmentDirections
+import com.kucingselfie.madecourse.util.gone
+import com.kucingselfie.madecourse.util.visible
 
 class FavoriteTVShowFragment : Fragment() {
 
@@ -31,14 +35,22 @@ class FavoriteTVShowFragment : Fragment() {
 
         viewModel.allTVShows.observe(viewLifecycleOwner, Observer {
             it?.let {
-                adapter.submitList(it)
+                if (it.isEmpty()) {
+                    bind.textEmptyData.visible()
+                    bind.rvFavoriteTvShow.gone()
+                } else {
+                    bind.textEmptyData.gone()
+                    bind.rvFavoriteTvShow.visible()
+                    adapter.submitList(it)
+                }
             }
         })
     }
 
     private fun initAdapter() {
         adapter = FavoriteTVShowAdapter {
-
+            val action = FavoriteFragmentDirections.actionFavoriteFragmentToDetailMovieFragment(it.id, false)
+            findNavController().navigate(action)
         }
         bind.rvFavoriteTvShow.adapter = adapter
     }

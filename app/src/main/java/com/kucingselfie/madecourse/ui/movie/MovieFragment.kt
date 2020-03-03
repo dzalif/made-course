@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.kucingselfie.madecourse.common.ResultState
@@ -28,7 +29,7 @@ class MovieFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel = ViewModelProviders.of(this).get(MovieViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(MovieViewModel::class.java)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewmodel = viewModel
         initRecyclerView()
