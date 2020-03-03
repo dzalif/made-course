@@ -9,13 +9,14 @@ import androidx.lifecycle.ViewModelProvider
 import com.kucingselfie.madecourse.R
 import com.kucingselfie.madecourse.common.ResultState
 import com.kucingselfie.madecourse.databinding.DetailMovieFragmentBinding
+import com.kucingselfie.madecourse.model.DetailModel
 import com.kucingselfie.madecourse.util.CustomViewModelFactory
 import com.kucingselfie.madecourse.util.gone
 import com.kucingselfie.madecourse.util.visible
 
 class DetailMovieFragment : Fragment() {
     private lateinit var viewModel: DetailMovieViewModel
-    private lateinit var binding: DetailMovieFragmentBinding
+    private lateinit var bind: DetailMovieFragmentBinding
     private var menuItem: Menu? = null
     private var isFavorite: Boolean = false
     private var isMovie: Boolean = false
@@ -24,11 +25,11 @@ class DetailMovieFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DetailMovieFragmentBinding.inflate(inflater)
+        bind = DetailMovieFragmentBinding.inflate(inflater)
         viewModel = ViewModelProvider(this, CustomViewModelFactory(this, requireActivity().application)).get(DetailMovieViewModel::class.java)
-        binding.lifecycleOwner = this
+        bind.lifecycleOwner = this
         setHasOptionsMenu(true)
-        return binding.root
+        return bind.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,9 +46,9 @@ class DetailMovieFragment : Fragment() {
                 if (isMovie) viewModel.getDetailMovie(id)
                 else viewModel.getDetailTvShow(id)
             } else {
-                binding.progressBar.gone()
+                bind.progressBar.gone()
                 val movie = viewModel.getMovieState()
-                binding.model = movie
+                bind.model = movie
             }
             observeData()
         }
@@ -58,19 +59,15 @@ class DetailMovieFragment : Fragment() {
             it?.let {
                 when(it) {
                     is ResultState.Loading -> {
-                        binding.progressBar.visible()
+                        bind.progressBar.visible()
                     }
                     is ResultState.HasData -> {
-                        binding.progressBar.gone()
-                        binding.model = it.data
-                        if (isMovie) {
-                            viewModel.setMovieData(it.data)
-                        } else {
-                            viewModel.setTVShowData(it.data)
-                        }
+                        bind.progressBar.gone()
+                        bind.model = it.data
+                        setData(isMovie, it.data)
                     }
                     is ResultState.Error -> {
-                        binding.progressBar.gone()
+                        bind.progressBar.gone()
                     }
                 }
             }
@@ -82,11 +79,9 @@ class DetailMovieFragment : Fragment() {
                 if (it.isEmpty()) {
                     return@Observer
                 } else {
-                    if (it[0].id == id) {
-                        isFavorite = true
-                    }
+                    setToFavorite(it[0].id, id)
                 }
-                setFavorite()
+                updateFavorite()
             }
         })
 
@@ -96,19 +91,31 @@ class DetailMovieFragment : Fragment() {
                 if (it.isEmpty()) {
                     return@Observer
                 } else {
-                    if (it[0].id == id) {
-                        isFavorite = true
-                    }
+                    setToFavorite(it[0].id, id)
                 }
-                setFavorite()
+                updateFavorite()
             }
         })
+    }
+
+    private fun setToFavorite(favoriteId: Int, currentId: Int?) {
+        if (favoriteId == currentId) {
+            isFavorite = true
+        }
+    }
+
+    private fun setData(isMovie: Boolean, it: DetailModel) {
+        if (isMovie) {
+            viewModel.setMovieData(it)
+        } else {
+            viewModel.setTVShowData(it)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.detail_menu, menu)
         menuItem = menu
-        setFavorite()
+        updateFavorite()
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -116,16 +123,12 @@ class DetailMovieFragment : Fragment() {
         when(item.itemId) {
             R.id.action_favorite -> {
                 if (isFavorite) {
-                    if (isMovie) {
-                        removeFromFavoriteMovie()
-                    } else {
-                        removeFromFavoriteTVShow()
-                    }
+                    if (isMovie) removeFromFavoriteMovie() else removeFromFavoriteTVShow()
                 } else {
                     if (isMovie) addToFavoriteMovie() else addToFavoriteTVShow()
                 }
                 isFavorite = !isFavorite
-                setFavorite()
+                updateFavorite()
                 return true
             }
         }
@@ -160,11 +163,7 @@ class DetailMovieFragment : Fragment() {
         }
     }
 
-    private fun setFavorite() {
-        changeStateMenuIcon()
-    }
-
-    private fun changeStateMenuIcon() {
+    private fun updateFavorite() {
         if (isFavorite)
             menuItem?.getItem(0)?.icon =
                 ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_white_fill)
