@@ -2,24 +2,20 @@ package com.kucingselfie.madecourse.ui.favorite
 
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
-
 import com.kucingselfie.madecourse.R
 import com.kucingselfie.madecourse.databinding.FragmentFavoriteBinding
 import com.kucingselfie.madecourse.ui.favorite.movie.FavoriteMovieFragment
 import com.kucingselfie.madecourse.ui.favorite.tvshow.FavoriteTVShowFragment
 
-/**
- * A simple [Fragment] subclass.
- */
 class FavoriteFragment : Fragment() {
     private lateinit var binding: FragmentFavoriteBinding
     private lateinit var viewPager : ViewPager
@@ -33,6 +29,7 @@ class FavoriteFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentFavoriteBinding.inflate(inflater)
         binding.executePendingBindings()
+        setHasOptionsMenu(true)
         viewPager = binding.viewPager
         tabLayout = binding.tabLayout
         viewPagerAdapter =
@@ -42,7 +39,6 @@ class FavoriteFragment : Fragment() {
             )
         viewPager.adapter = viewPagerAdapter
         tabLayout.setupWithViewPager(viewPager,true)
-
         return binding.root
     }
 
