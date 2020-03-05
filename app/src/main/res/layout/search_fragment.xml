@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/white"
+    tools:context=".ui.movie.MovieFragment"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvSearch"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/item_movie"
+        app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+        app:spanCount="2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/rvSearch"
+        app:layout_constraintEnd_toEndOf="@+id/rvSearch"
+        app:layout_constraintStart_toStartOf="@+id/rvSearch"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvNoData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_data"
+        app:layout_constraintBottom_toBottomOf="@+id/rvSearch"
+        app:layout_constraintEnd_toEndOf="@+id/rvSearch"
+        app:layout_constraintStart_toStartOf="@+id/rvSearch"
+        app:layout_constraintTop_toTopOf="@+id/rvSearch" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

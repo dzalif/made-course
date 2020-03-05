@@ -81,9 +81,15 @@ class MovieFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.action_change_settings) {
-            val mIntent = Intent(Settings.ACTION_LOCALE_SETTINGS)
-            startActivity(mIntent)
+        when(item.itemId) {
+            R.id.action_change_settings -> {
+                val mIntent = Intent(Settings.ACTION_LOCALE_SETTINGS)
+                startActivity(mIntent)
+            }
+            R.id.action_search -> {
+                val action = MovieFragmentDirections.actionMovieFragmentToSearchFragment()
+                findNavController().navigate(action)
+            }
         }
         return super.onOptionsItemSelected(item)
     }
