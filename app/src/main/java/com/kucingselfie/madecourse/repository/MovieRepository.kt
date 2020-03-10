@@ -29,4 +29,8 @@ class MovieRepository(private val movieDao: MovieDao, private val tvShowDao: TVS
 
     val allMovies: LiveData<List<MovieEntity>> = movieDao.getListMovie()
 
+    fun getFavorites(): List<MovieEntity> {
+        return movieDao.getFavorites()
+    }
+
 }

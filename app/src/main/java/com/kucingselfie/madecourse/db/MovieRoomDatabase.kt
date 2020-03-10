@@ -6,9 +6,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.kucingselfie.madecourse.entity.MovieEntity
 import com.kucingselfie.madecourse.entity.TVShowEntity
-import kotlinx.coroutines.CoroutineScope
 
-@Database(entities = [MovieEntity::class, TVShowEntity::class], version = 4, exportSchema = false)
+@Database(entities = [MovieEntity::class, TVShowEntity::class], version = 5, exportSchema = false)
 abstract class MovieRoomDatabase : RoomDatabase() {
 
     abstract fun movieDao(): MovieDao
@@ -21,7 +20,7 @@ abstract class MovieRoomDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: MovieRoomDatabase? = null
 
-        fun getDatabase(context: Context, scope: CoroutineScope): MovieRoomDatabase {
+        fun getDatabase(context: Context): MovieRoomDatabase {
             val tempInstance = INSTANCE
             if (tempInstance != null) {
                 return tempInstance

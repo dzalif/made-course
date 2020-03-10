@@ -37,8 +37,8 @@ class DetailMovieViewModel(state: SavedStateHandle, application: Application) : 
     private val _movieId = MutableLiveData<Int>()
 
     init {
-        val movieDao = MovieRoomDatabase.getDatabase(application, viewModelScope).movieDao()
-        val tvShowDao = MovieRoomDatabase.getDatabase(application, viewModelScope).tvShowDao()
+        val movieDao = MovieRoomDatabase.getDatabase(application).movieDao()
+        val tvShowDao = MovieRoomDatabase.getDatabase(application).tvShowDao()
         repository = MovieRepository(movieDao, tvShowDao)
         savedStateHandle = state
     }

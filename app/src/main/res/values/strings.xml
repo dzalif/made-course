@@ -9,4 +9,6 @@
     <string name="favorite">Favorite</string>
     <string name="no_data">There is no data</string>
     <string name="search">Search</string>
+    <string name="appwidget_text">Movie Banner</string>
+    <string name="add_widget">Add widget</string>
 </resources>
