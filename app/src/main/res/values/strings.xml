@@ -11,4 +11,14 @@
     <string name="search">Search</string>
     <string name="appwidget_text">Movie Banner</string>
     <string name="add_widget">Add widget</string>
+    <string name="notification_title">Reminder</string>
+    <string name="notification_text">There is something new for you</string>
+    <string name="reminder_settings">Reminder Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="release_reminder">Release Reminder</string>
+    <string name="sub_release_reminder">Reminder showing the movie that released today</string>
+    <string name="daily_reminder">Daily Reminder</string>
+    <string name="sub_daily_reminder">Reminder for return to the app</string>
 </resources>

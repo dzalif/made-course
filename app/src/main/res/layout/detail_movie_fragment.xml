@@ -6,6 +6,9 @@
         <variable
             name="model"
             type="com.kucingselfie.madecourse.model.DetailModel" />
+        <variable
+            name="isMovie"
+            type="Boolean" />
     </data>
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -33,8 +36,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@{model.title}"
-                android:textSize="16sp"
+                android:text="@{isMovie ? model.title : model.name}"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/image"
                 app:layout_constraintStart_toStartOf="@+id/image"

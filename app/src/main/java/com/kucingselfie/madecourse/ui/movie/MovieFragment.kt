@@ -90,6 +90,10 @@ class MovieFragment : Fragment() {
                 val action = MovieFragmentDirections.actionMovieFragmentToSearchFragment()
                 findNavController().navigate(action)
             }
+            R.id.action_reminder_settings -> {
+                val action = MovieFragmentDirections.actionMovieFragmentToReminderFragment()
+                findNavController().navigate(action)
+            }
         }
         return super.onOptionsItemSelected(item)
     }

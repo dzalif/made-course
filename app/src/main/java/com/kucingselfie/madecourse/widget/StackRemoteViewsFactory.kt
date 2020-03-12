@@ -1,6 +1,5 @@
 package com.kucingselfie.madecourse.widget
 
-import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -29,8 +28,8 @@ class StackRemoteViewsFactory(private val mContext: Context) : RemoteViewsServic
     }
 
     override fun onDataSetChanged() {
-        mWidgetItems.clear()
         val identityToken = Binder.clearCallingIdentity()
+        mWidgetItems.clear()
         val movies = db.movieDao().getFavorites()
         mWidgetItems.addAll(movies)
         Binder.restoreCallingIdentity(identityToken)

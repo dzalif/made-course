@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_movieFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_movieFragment_to_reminderFragment"
+            app:destination="@id/reminderFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailMovieFragment"
@@ -39,19 +42,6 @@
             app:destination="@id/detailMovieFragment" />
     </fragment>
     <fragment
-        android:id="@+id/homeFragment"
-        tools:layout="@layout/home_fragment"
-        android:name="com.kucingselfie.madecourse.ui.home.HomeFragment"
-        android:label="Home">
-        <action
-            android:id="@+id/action_homeFragment_to_detailMovieFragment"
-            app:destination="@id/detailMovieFragment"
-            app:enterAnim="@anim/fragment_fade_enter"
-            app:exitAnim="@anim/fragment_fade_exit"
-            app:popEnterAnim="@anim/fragment_fade_enter"
-            app:popExitAnim="@anim/fragment_fade_exit" />
-    </fragment>
-    <fragment
         android:id="@+id/favoriteFragment"
         android:name="com.kucingselfie.madecourse.ui.favorite.FavoriteFragment"
         android:label="FavoriteFragment" >
@@ -64,5 +54,10 @@
         android:name="com.kucingselfie.madecourse.ui.search.SearchFragment"
         android:label="search_fragment"
         tools:layout="@layout/search_fragment" />
+    <fragment
+        android:id="@+id/reminderFragment"
+        android:name="com.kucingselfie.madecourse.ui.reminder.ReminderFragment"
+        android:label="Reminder Settings"
+        tools:layout="@layout/reminder_fragment" />
 
 </navigation>

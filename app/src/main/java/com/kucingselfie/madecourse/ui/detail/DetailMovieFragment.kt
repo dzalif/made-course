@@ -6,13 +6,20 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.palette.graphics.Palette
+import com.bumptech.glide.Glide
 import com.kucingselfie.madecourse.R
+import com.kucingselfie.madecourse.common.BASE_URL_IMAGE
 import com.kucingselfie.madecourse.common.ResultState
 import com.kucingselfie.madecourse.databinding.DetailMovieFragmentBinding
 import com.kucingselfie.madecourse.model.DetailModel
 import com.kucingselfie.madecourse.util.CustomViewModelFactory
 import com.kucingselfie.madecourse.util.gone
 import com.kucingselfie.madecourse.util.visible
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.withContext
 
 class DetailMovieFragment : Fragment() {
     private lateinit var viewModel: DetailMovieViewModel
@@ -51,6 +58,30 @@ class DetailMovieFragment : Fragment() {
                 bind.model = movie
             }
             observeData()
+        }
+    }
+
+    private fun changeTitleColor(movie: DetailModel?) {
+        movie?.let {
+            lifecycleScope.launchWhenCreated {
+                withContext(IO) {
+                    val bitmap = Glide
+                        .with(this@DetailMovieFragment)
+                        .asBitmap()
+                        .load(BASE_URL_IMAGE + movie.posterPath)
+                        .submit()
+                        .get()
+                    withContext(Main) {
+                        Palette.from(bitmap).generate {
+                            val vibrantSwatch = it?.vibrantSwatch
+                            vibrantSwatch?.let { p ->
+                                val color = p.rgb
+                                bind.tvTitle.setTextColor(color)
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -106,9 +137,13 @@ class DetailMovieFragment : Fragment() {
 
     private fun setData(isMovie: Boolean, it: DetailModel) {
         if (isMovie) {
+            bind.isMovie = true
             viewModel.setMovieData(it)
+            changeTitleColor(it)
         } else {
+            bind.isMovie = false
             viewModel.setTVShowData(it)
+            changeTitleColor(it)
         }
     }
 
