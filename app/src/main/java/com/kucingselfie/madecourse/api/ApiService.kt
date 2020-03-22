@@ -1,6 +1,7 @@
 package com.kucingselfie.madecourse.api
 
 import com.kucingselfie.madecourse.api.response.MovieResponse
+import com.kucingselfie.madecourse.api.response.ReleaseTodayResponse
 import com.kucingselfie.madecourse.api.response.SearchResponse
 import com.kucingselfie.madecourse.api.response.TVShowResponse
 import com.kucingselfie.madecourse.model.DetailModel
@@ -36,4 +37,11 @@ interface ApiService {
         @Query("api_key") apiKey: String,
         @Query("query") query: String
     ) : SearchResponse
+
+    @GET("discover/movie/")
+    suspend fun getTodayRelease(
+        @Query("api_key") apiKey: String,
+        @Query("primary_release_date.gte") gte: String,
+        @Query("primary_release_date.lte") lte: String
+    ) : ReleaseTodayResponse
 }

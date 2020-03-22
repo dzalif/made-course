@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:text="@string/release_reminder"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/switch2"
+        app:layout_constraintEnd_toStartOf="@+id/switchRelease"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,7 +30,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvReleaseReminder" />
 
     <Switch
-        android:id="@+id/switch2"
+        android:id="@+id/switchRelease"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/tvSubReleaseReminder"
@@ -48,7 +48,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvSubReleaseReminder" />
 
     <Switch
-        android:id="@+id/switch3"
+        android:id="@+id/switchDaily"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/tvSubDailyReminder"

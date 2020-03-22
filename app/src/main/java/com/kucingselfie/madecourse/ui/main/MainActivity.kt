@@ -1,9 +1,5 @@
 package com.kucingselfie.madecourse.ui.main
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -21,42 +17,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var toolbar: androidx.appcompat.widget.Toolbar
 
-    private var mNotificationManager: NotificationManager? = null
-
-    companion object {
-        private const val NOTIFICATION_ID = 0
-        private const val PRIMARY_CHANNEL_ID = "primary_notification_channel"
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        mNotificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-
         initNavController()
         initBottomNav()
-        createNotificationChannel()
-    }
-
-    private fun createNotificationChannel() {
-        mNotificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-
-        if (Build.VERSION.SDK_INT >=
-            Build.VERSION_CODES.O
-        ) {
-            // Create the NotificationChannel with all the parameters.
-            val notificationChannel = NotificationChannel(
-                PRIMARY_CHANNEL_ID,
-                "Stand up notification",
-                NotificationManager.IMPORTANCE_HIGH
-            )
-            notificationChannel.enableLights(true)
-            notificationChannel.lightColor = Color.RED
-            notificationChannel.enableVibration(true)
-            notificationChannel.description = "Notifies every 15 minutes to stand up and walk"
-            mNotificationManager!!.createNotificationChannel(notificationChannel)
-        }
     }
 
     private fun initBottomNav() {

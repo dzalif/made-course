@@ -9,4 +9,15 @@
     <string name="no_internet_connection">Tidak ada koneksi internet</string>
     <string name="favorite">Favorit</string>
     <string name="no_data">Tidak ada data</string>
+    <string name="search">Cari</string>
+    <string name="appwidget_text">Banner Film</string>
+    <string name="add_widget">Tambah widget</string>
+    <string name="notification_title">Movie Catalogue</string>
+    <string name="notification_text">Hi, lihat daftar film hari ini yuk</string>
+    <string name="reminder_settings">Pengaturan Notifikasi</string>
+    <string name="hello_blank_fragment">Hello world</string>
+    <string name="release_reminder">Notifikasi Rilis</string>
+    <string name="sub_release_reminder">Notifikasi film yang rilis hari ini</string>
+    <string name="daily_reminder">Notifikasi Harian</string>
+    <string name="sub_daily_reminder">Notifikasi pengingat untuk kembali ke aplikasi</string>
 </resources>
