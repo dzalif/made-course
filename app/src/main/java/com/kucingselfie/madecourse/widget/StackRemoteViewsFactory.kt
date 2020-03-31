@@ -13,6 +13,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.kucingselfie.madecourse.MovieBannerWidget
 import com.kucingselfie.madecourse.R
 import com.kucingselfie.madecourse.common.BASE_URL_IMAGE
+import com.kucingselfie.madecourse.common.DB_NAME
 import com.kucingselfie.madecourse.db.MovieRoomDatabase
 import com.kucingselfie.madecourse.entity.MovieEntity
 import timber.log.Timber
@@ -23,7 +24,7 @@ class StackRemoteViewsFactory(private val mContext: Context) : RemoteViewsServic
     private lateinit var db: MovieRoomDatabase
 
     override fun onCreate() {
-        db = Room.databaseBuilder(mContext.applicationContext, MovieRoomDatabase::class.java, "movieDb.db")
+        db = Room.databaseBuilder(mContext.applicationContext, MovieRoomDatabase::class.java, DB_NAME)
             .allowMainThreadQueries().build()
     }
 

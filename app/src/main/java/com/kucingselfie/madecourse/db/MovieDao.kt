@@ -1,5 +1,6 @@
 package com.kucingselfie.madecourse.db
 
+import android.database.Cursor
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
@@ -23,4 +24,10 @@ interface MovieDao {
 
     @Query("SELECT * from movie")
     fun getFavorites(): List<MovieEntity>
+
+    @Query("SELECT * from movie")
+    fun selectMovies(): Cursor
+
+    @Query("SELECT * FROM movie WHERE id = :movieId")
+    fun selectMovieById(movieId: Long) : Cursor
 }
