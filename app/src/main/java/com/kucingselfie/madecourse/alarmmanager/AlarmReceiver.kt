@@ -54,27 +54,32 @@ class AlarmReceiver : BroadcastReceiver() {
             val message = context.getString(R.string.notification_text)
             deliverNotification(context, notifId, message, notificationTitle, CHANNEL_ID_DAILY, CHANNEL_NAME_DAILY)
         } else {
-            getReleaseToday(context, notifId)
+            getReleaseToday(context)
         }
     }
 
-    private fun getReleaseToday(context: Context, notifId: Int) {
+    private fun getReleaseToday(context: Context) {
         GlobalScope.launch {
             withContext(Dispatchers.IO) {
                 try {
                     val result = ApiClient.create().getTodayRelease(API_KEY, getDateToday(), getDateToday())
                     val movies = result.results
-                    val message = movies[0].title + " has been release today"
-                    val title = movies[0].title
+
                     withContext(Dispatchers.Main) {
-                        deliverNotification(
-                            context,
-                            notifId,
-                            message,
-                            title,
-                            CHANNEL_ID_RELEASE,
-                            CHANNEL_NAME_RELEASE
-                        )
+                        var notifId = 2
+                        for (i in movies) {
+                            val title = i.title
+                            val message = i.title + " has been release today"
+                            deliverNotification(
+                                context,
+                                notifId,
+                                message,
+                                title,
+                                CHANNEL_ID_RELEASE,
+                                CHANNEL_NAME_RELEASE
+                            )
+                            notifId++
+                        }
                     }
                 } catch (e: Exception) {
                     Timber.e("RESPONSE ERROR : ${e.message}")
@@ -106,10 +111,6 @@ class AlarmReceiver : BroadcastReceiver() {
             .setContentText(message)
             .setColor(ContextCompat.getColor(context, android.R.color.transparent))
 
-        /*
-        Untuk android Oreo ke atas perlu menambahkan notification channel
-        Materi ini akan dibahas lebih lanjut di modul extended
-         */
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
             /* Create or update. */
